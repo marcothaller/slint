@@ -37,6 +37,8 @@ pub enum BuiltinFunction {
     ATan,
     Log,
     Pow,
+    ToFixed,
+    ToFormattedString,
     SetFocusItem,
     ClearFocusItem,
     ShowPopupWindow,
@@ -139,6 +141,14 @@ impl BuiltinFunction {
             BuiltinFunction::Log | BuiltinFunction::Pow => Type::Function {
                 return_type: Box::new(Type::Float32),
                 args: vec![Type::Float32, Type::Float32],
+            },
+            BuiltinFunction::ToFixed => Type::Function {
+                return_type: Box::new(Type::String),
+                args: vec![Type::Float32, Type::Int32],
+            },
+            BuiltinFunction::ToFormattedString => Type::Function {
+                return_type: Box::new(Type::String),
+                args: vec![Type::Float32, Type::Int32, Type::Int32],
             },
             BuiltinFunction::SetFocusItem => Type::Function {
                 return_type: Box::new(Type::Void),
@@ -343,6 +353,7 @@ impl BuiltinFunction {
             | BuiltinFunction::Log
             | BuiltinFunction::Pow
             | BuiltinFunction::ATan => true,
+            BuiltinFunction::ToFixed | BuiltinFunction::ToFormattedString => true,
             BuiltinFunction::SetFocusItem | BuiltinFunction::ClearFocusItem => false,
             BuiltinFunction::ShowPopupWindow | BuiltinFunction::ClosePopupWindow => false,
             BuiltinFunction::SetSelectionOffsets => false,
@@ -408,6 +419,7 @@ impl BuiltinFunction {
             | BuiltinFunction::Log
             | BuiltinFunction::Pow
             | BuiltinFunction::ATan => true,
+            BuiltinFunction::ToFixed | BuiltinFunction::ToFormattedString => true,
             BuiltinFunction::SetFocusItem | BuiltinFunction::ClearFocusItem => false,
             BuiltinFunction::ShowPopupWindow | BuiltinFunction::ClosePopupWindow => false,
             BuiltinFunction::SetSelectionOffsets => false,

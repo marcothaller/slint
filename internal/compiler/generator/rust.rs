@@ -2740,6 +2740,14 @@ fn compile_builtin_function_call(
             let (a1, a2) = (a.next().unwrap(), a.next().unwrap());
             quote!((#a1 as f64).powf(#a2 as f64))
         }
+        BuiltinFunction::ToFixed => {
+            let (a1, a2) = (a.next().unwrap(), a.next().unwrap());
+            quote!(slint::SharedString::from(format!("{:.digits$}", #a1 as f64, digits = #a2 as usize)))
+        }
+        BuiltinFunction::ToFormattedString => {
+            let (a1, a2, a3) = (a.next().unwrap(), a.next().unwrap(), a.next().unwrap());
+            quote!(slint::SharedString::from(format!("{:width$.digits$}", #a1 as f64, digits = #a2 as usize, width = #a3 as usize)))
+        }
         BuiltinFunction::StringToFloat => {
             quote!(#(#a)*.as_str().parse::<f64>().unwrap_or_default())
         }

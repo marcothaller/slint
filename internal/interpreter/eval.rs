@@ -489,6 +489,17 @@ fn call_builtin_function(
             let y: f64 = eval_expression(&arguments[1], local_context).try_into().unwrap();
             Value::Number(x.powf(y))
         }
+        BuiltinFunction::ToFixed => {
+            let x: f64 = eval_expression(&arguments[0], local_context).try_into().unwrap();
+            let y: usize = eval_expression(&arguments[1], local_context).try_into().unwrap();
+            Value::String(SharedString::from(format!("{:.digits$}", x, digits = y)))
+        }
+        BuiltinFunction::ToFormattedString => {
+            let x: f64 = eval_expression(&arguments[0], local_context).try_into().unwrap();
+            let y: usize = eval_expression(&arguments[1], local_context).try_into().unwrap();
+            let z: usize = eval_expression(&arguments[1], local_context).try_into().unwrap();
+            Value::String(SharedString::from(format!("{:width$.digits$}", x, digits = y, width = z)))
+        }
         BuiltinFunction::SetFocusItem => {
             if arguments.len() != 1 {
                 panic!("internal error: incorrect argument count to SetFocusItem")

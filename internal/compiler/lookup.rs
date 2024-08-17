@@ -1147,6 +1147,8 @@ impl<'a> LookupObject for NumberExpression<'a> {
             .or_else(|| f("atan", member_function(BuiltinFunction::ATan)))
             .or_else(|| f("log", member_function(BuiltinFunction::Log)))
             .or_else(|| f("pow", member_function(BuiltinFunction::Pow)))
+            .or_else(|| f("to-fixed", member_function(BuiltinFunction::ToFixed)))
+            .or_else(|| f("to-formatted", member_function(BuiltinFunction::ToFormattedString)))
             .or_else(|| NumberWithUnitExpression(self.0).for_each_entry(ctx, f))
     }
 }
